@@ -25,7 +25,6 @@ const Home = async () => {
   });
 
   const categories = await db.query.categoryTable.findMany();
-  console.log(products);
   return (
     <div>
       <div>
