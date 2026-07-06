@@ -1,12 +1,9 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { Toaster } from "sonner";
+import { Geist, Geist_Mono } from "next/font/google";
 
-import { cn } from "@/lib/utils";
-
-const interHeading = Inter({ subsets: ["latin"], variable: "--font-heading" });
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,12 +26,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn(interHeading.variable)}>
+    <html lang="pt-br">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} flex min-h-dvh flex-col antialiased`}
       >
-        {children}
+        <div className="flex w-full flex-1 flex-col">{children}</div>
         <Toaster />
+        <footer className="bg-accent mt-auto w-full gap-1 p-8">
+          <div className="space-y-1 p-1 text-xs font-medium">
+            <p>&copy; 2026 Zarpdon.</p>
+
+            <p className="text-muted-foreground">
+              Todos os direitos reservados.
+            </p>
+          </div>
+        </footer>
       </body>
     </html>
   );

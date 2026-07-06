@@ -1,12 +1,13 @@
 "use client";
 
 import ProductItem from "@/components/common/product-item";
-import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
 
 interface ProductListProps {
   title: string;
-  products: (typeof productTable.$inferSelect)[];
+  products: (typeof productTable.$inferSelect & {
+    variants: (typeof productVariantTable.$inferSelect)[];
+  })[];
 }
 
 const ProductList = ({ title, products }: ProductListProps) => {
