@@ -43,7 +43,11 @@ const Home = async () => {
           />
         </div>
 
-        <ProductList products={products} title="TOP 10 Mais Vendidos" />
+        <ProductList
+          products={products}
+          title="TOP 10 Mais Vendidos"
+          imageListClassName="rounded-t-lg"
+        />
 
         <div className="p-5">
           <CategorySelector categories={categories} />
@@ -59,8 +63,13 @@ const Home = async () => {
             className="h-auto w-full"
           />
         </div>
-
-        <ProductList products={newlyProducts} title="Novidades" />
+        <div className="rounded-t-xl">
+          <ProductList
+            products={newlyProducts}
+            title="Novidades"
+            imageListClassName="rounded-t-lg"
+          />
+        </div>
       </div>
 
       <div className="space-y-3 px-5">
