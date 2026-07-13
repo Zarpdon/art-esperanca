@@ -5,7 +5,7 @@ import { STORAGE_URL } from "@/db/cloudflare";
 import { productTable, productVariantTable } from "@/db/schema";
 import { cn } from "@/lib/utils";
 
-import OrderPriceValues from "./price-values-ordenator";
+import OrderPriceValues from "./helpers/price-values-ordenator";
 
 interface ProductItemProps {
   product: typeof productTable.$inferSelect & {

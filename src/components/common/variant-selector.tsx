@@ -34,21 +34,20 @@ const VariantSelector = ({
             }
             variant={selectedVariant?.id === variant.id ? "default" : "outline"}
             className={`h-20 w-20 overflow-hidden rounded p-0 hover:opacity-70 ${
-              selectedVariant?.id === variant.id ? "ring-primary ring-4" : ""
+              selectedVariant?.id === variant.id ? "ring-primary ring-2" : ""
             }`}
           >
             <Image
-              width={80}
-              height={80}
+              width={68}
+              height={68}
               className="h-full w-full object-cover"
-              src={
-                STORAGE_URL + variant.imageUrl ||
-                STORAGE_URL + product.coverImageUrl
-              }
+              src={STORAGE_URL + (variant.imageUrl ?? product.coverImageUrl)}
               alt={variant.name}
             />
           </Button>
-          <p className="mt-1 text-center text-xs">{variant.name}</p>
+          <p className="mt-1 line-clamp-2 h-8 text-center text-xs">
+            {variant.name}
+          </p>
         </div>
       ))}
     </div>

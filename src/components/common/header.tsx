@@ -15,6 +15,7 @@ import {
 import { authClient } from "@/lib/auth-client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Cart } from "./cart";
 
 export const Header = () => {
   const { data: session } = authClient.useSession();
@@ -24,6 +25,7 @@ export const Header = () => {
         <Image src="/zpd_logo.svg" alt="Logo Zarpdon" width={30} height={26} />
       </Link>
       <div className="flex items-center gap-5">
+        <Cart />
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-import { formatCentsToUnits } from "@/components/common/money";
+import { formatCentsToUnits } from "@/components/common/helpers/money";
 import VariantSelector from "@/components/common/variant-selector";
 import {
   Carousel,
@@ -19,6 +19,8 @@ import {
   productVariantTable,
 } from "@/db/schema";
 
+import QuantitySelector from "./quantity-selector";
+
 interface ProductDetailsProps {
   product: typeof productTable.$inferSelect & {
     variants: (typeof productVariantTable.$inferSelect)[];
@@ -33,7 +35,7 @@ const ProductDetails = ({ product, variantTitle }: ProductDetailsProps) => {
   >(null);
 
   const priceValues = product.variants.map((variant) => variant.priceInCents);
-  const priceValuesOrdered = priceValues.sort((a, b) => a - b);
+  const priceValuesOrdered = [...priceValues].sort((a, b) => a - b);
 
   return (
     <>
@@ -71,6 +73,22 @@ const ProductDetails = ({ product, variantTitle }: ProductDetailsProps) => {
                   />
                 </CarouselItem>
               ))}
+              {product.variants.slice(0, 1).map((variant) => (
+                <CarouselItem
+                  key={variant.id}
+                  className="relative aspect-square"
+                >
+                  <Image
+                    src={STORAGE_URL + variant.imageUrl}
+                    alt={product.name}
+                    sizes="100vw"
+                    width={0}
+                    height={0}
+                    fill
+                    className="object-contain"
+                  />
+                </CarouselItem>
+              ))}
             </>
           )}
         </CarouselContent>
@@ -78,29 +96,39 @@ const ProductDetails = ({ product, variantTitle }: ProductDetailsProps) => {
         <CarouselPrevious className="left-2 h-8 w-8 md:h-12 md:w-12 lg:h-16 lg:w-16" />
         <CarouselNext className="right-2 h-8 w-8 md:h-12 md:w-12 lg:h-16 lg:w-16" />
       </Carousel>
-
       <div className="px-3">
-        <h3 className="text-md px-2 pb-3 font-semibold">{variantTitle}</h3>
+        {product.variants.length > 1 ? (
+          <>
+            <h3 className="text-md px-2 pb-3 font-semibold">{variantTitle}</h3>
 
-        <VariantSelector
-          product={product}
-          selectedVariant={selectedVariant}
-          onVariantSelect={setSelectedVariant}
-        />
-        <h3 className="py-3 text-lg font-semibold">
-          {selectedVariant ? (
-            formatCentsToUnits(selectedVariant.priceInCents)
-          ) : (
-            <>
-              {formatCentsToUnits(priceValuesOrdered[0])} -{" "}
-              {formatCentsToUnits(
-                priceValuesOrdered[priceValuesOrdered.length - 1],
+            <VariantSelector
+              product={product}
+              selectedVariant={selectedVariant}
+              onVariantSelect={setSelectedVariant}
+            />
+            <h3 className="py-3 text-lg font-semibold">
+              {selectedVariant ? (
+                formatCentsToUnits(selectedVariant.priceInCents)
+              ) : (
+                <>
+                  {formatCentsToUnits(priceValuesOrdered[0])} -{" "}
+                  {formatCentsToUnits(
+                    priceValuesOrdered[priceValuesOrdered.length - 1],
+                  )}
+                </>
               )}
-            </>
-          )}
-        </h3>
+            </h3>
+          </>
+        ) : (
+          <>
+            <h3 className="py-3 text-lg font-semibold">
+              {formatCentsToUnits(priceValues[0])}
+            </h3>
+          </>
+        )}
       </div>
-      <div className="px-5">Quantidade</div>
+
+      <QuantitySelector />
     </>
   );
 };
