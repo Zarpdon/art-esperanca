@@ -1,3 +1,5 @@
+"use client";
+
 import { ShoppingCartIcon } from "lucide-react";
 
 import { Button } from "../ui/button";
