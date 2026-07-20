@@ -1,6 +1,6 @@
 "use server";
 
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 
 import { db } from "@/db";
@@ -40,14 +40,12 @@ export const addProductToCart = async (data: AddProductToCartSchema) => {
   }
   const cartItem = await db.query.cartItemTable.findFirst({
     where: (cartItem, { eq }) =>
-      eq(cartItem.cartId, cartId) &&
-      eq(cartItem.productVariantId, data.productVariantId),
+      and(
+        eq(cartItem.cartId, cartId),
+        eq(cartItem.productVariantId, data.productVariantId),
+      ),
   });
   if (cartItem) {
-    if (cartItem.quantity + data.quantity > productVariant.stock) {
-      throw new Error("Insufficient stock");
-    }
-
     await db
       .update(cartItemTable)
       .set({

@@ -15,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import CartItem from "./cart-item";
 
 export const Cart = () => {
   const { data: cart, isPending: cartIsPending } = useQuery({
@@ -34,7 +35,7 @@ export const Cart = () => {
         <SheetHeader>
           <SheetTitle>Carrinho</SheetTitle>
         </SheetHeader>
-        <div>
+        <div className="space-y-4 px-4">
           {cartIsPending && (
             <div className="px-5">
               <p>Carrinho está carregando...</p>
@@ -42,15 +43,15 @@ export const Cart = () => {
             </div>
           )}
           {cart?.items.map((item) => (
-            <div key={item.id} className="grid grid-cols-1 space-y-2 px-3">
-              <Image
-                src={STORAGE_URL + item.productVariant.imageUrl}
-                alt={item.productVariant.name}
-                width={100}
-                height={100}
-                className="rounded-md"
+            <div key={item.id}>
+              <CartItem
+                id={item.id}
+                productName={item.productVariant.product.name}
+                productVariantName={item.productVariant.name}
+                productVariantImageUrl={item.productVariant.imageUrl}
+                productVariantPriceInCents={item.productVariant.priceInCents}
+                productVariantQuantity={item.quantity}
               />
-              <p className="pb-3">{item.productVariant.name}</p>
             </div>
           ))}
         </div>
