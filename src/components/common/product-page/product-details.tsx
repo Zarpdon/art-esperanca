@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { formatCentsToUnits } from "@/components/common/helpers/money";
 import VariantSelector from "@/components/common/variant-selector";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -19,6 +20,7 @@ import {
   productVariantTable,
 } from "@/db/schema";
 
+import AddToCartButton from "./add-to-cart-button";
 import QuantitySelector from "./quantity-selector";
 
 interface ProductDetailsProps {
@@ -36,6 +38,8 @@ const ProductDetails = ({ product, variantTitle }: ProductDetailsProps) => {
 
   const priceValues = product.variants.map((variant) => variant.priceInCents);
   const priceValuesOrdered = [...priceValues].sort((a, b) => a - b);
+
+  const [quantity, setQuantity] = useState(1);
 
   return (
     <>
@@ -73,22 +77,25 @@ const ProductDetails = ({ product, variantTitle }: ProductDetailsProps) => {
                   />
                 </CarouselItem>
               ))}
-              {product.variants.slice(0, 1).map((variant) => (
-                <CarouselItem
-                  key={variant.id}
-                  className="relative aspect-square"
-                >
-                  <Image
-                    src={STORAGE_URL + variant.imageUrl}
-                    alt={product.name}
-                    sizes="100vw"
-                    width={0}
-                    height={0}
-                    fill
-                    className="object-contain"
-                  />
-                </CarouselItem>
-              ))}
+              {product.variants
+                .filter((variant) => variant.imageUrl)
+                .slice(0, 1)
+                .map((variant) => (
+                  <CarouselItem
+                    key={variant.id}
+                    className="relative aspect-square"
+                  >
+                    <Image
+                      src={STORAGE_URL + variant.imageUrl}
+                      alt={product.name}
+                      sizes="100vw"
+                      width={0}
+                      height={0}
+                      fill
+                      className="object-contain"
+                    />
+                  </CarouselItem>
+                ))}
             </>
           )}
         </CarouselContent>
@@ -128,7 +135,26 @@ const ProductDetails = ({ product, variantTitle }: ProductDetailsProps) => {
         )}
       </div>
 
-      <QuantitySelector />
+      <QuantitySelector quantity={quantity} onQuantityChange={setQuantity} />
+      <div className="flex flex-col space-y-4 px-5">
+        {/* BOTÕES */}
+
+        {product.variants.length > 1 ? (
+          <AddToCartButton
+            productVariantId={selectedVariant?.id ?? "null"}
+            quantity={quantity}
+          />
+        ) : (
+          <AddToCartButton
+            productVariantId={product.variants[0].id}
+            quantity={quantity}
+          />
+        )}
+
+        <Button className="rounded-full" size="lg">
+          Comprar agora
+        </Button>
+      </div>
     </>
   );
 };

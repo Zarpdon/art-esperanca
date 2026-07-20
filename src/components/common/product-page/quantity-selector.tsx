@@ -1,21 +1,25 @@
 "use client";
 
 import { MinusIcon, PlusIcon } from "lucide-react";
-import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
-const QuantitySelector = () => {
-  const [quantity, setQuantity] = useState(1);
+interface QuantitySelectorProps {
+  quantity: number;
+  onQuantityChange: (quantity: number) => void;
+}
 
+const QuantitySelector = ({
+  quantity,
+  onQuantityChange,
+}: QuantitySelectorProps) => {
   const handleDecrement = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    onQuantityChange(quantity > 1 ? quantity - 1 : 1);
   };
 
   const handleIncrement = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    onQuantityChange(quantity + 1);
   };
-
   return (
     <div className="space-y-4 px-5">
       <h3 className="font-medium">Quantidade</h3>

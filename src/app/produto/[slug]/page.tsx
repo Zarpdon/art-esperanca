@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import ProductDetails from "@/components/common/product-page/product-details";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 
@@ -40,15 +39,6 @@ const ProductPage = async ({ params }: ProductPageProps) => {
           product={product}
         />
 
-        <div className="flex flex-col space-y-4 px-5">
-          {/* BOTÕES */}
-          <Button className="rounded-full" size="lg" variant="outline">
-            Adicionar ao carrinho
-          </Button>
-          <Button className="rounded-full" size="lg">
-            Comprar agora
-          </Button>
-        </div>
         <div className="px-5">
           <p className="text-muted-foreground text-sm">{product.description}</p>
         </div>

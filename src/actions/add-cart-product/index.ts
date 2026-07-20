@@ -24,6 +24,7 @@ export const addProductToCart = async (data: AddProductToCartSchema) => {
   if (!productVariant) {
     throw new Error("Product variant not found");
   }
+
   const cart = await db.query.cartTable.findFirst({
     where: (cart, { eq }) => eq(cart.userId, session.user.id),
   });
@@ -43,6 +44,10 @@ export const addProductToCart = async (data: AddProductToCartSchema) => {
       eq(cartItem.productVariantId, data.productVariantId),
   });
   if (cartItem) {
+    if (cartItem.quantity + data.quantity > productVariant.stock) {
+      throw new Error("Insufficient stock");
+    }
+
     await db
       .update(cartItemTable)
       .set({
