@@ -1,6 +1,9 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
+import { toast } from "sonner";
 
+import { removeProductFromCart } from "@/actions/remove-cart-product";
 import { STORAGE_URL } from "@/db/cloudflare";
 
 import { Button } from "../ui/button";
@@ -24,6 +27,33 @@ const CartItem = ({
   productVariantPriceInCents,
   productVariantQuantity,
 }: CartItemProps) => {
+  const queryClient = useQueryClient();
+  const removeProductFromCartMutation = useMutation({
+    mutationKey: ["remove-cart-product"],
+    mutationFn: () => removeProductFromCart({ cartItemId: id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      toast(
+        <div>
+          <span className="text-sm font-semibold text-sky-700">
+            Produto removido do carrinho
+          </span>
+        </div>,
+      );
+    },
+    onError: () => {
+      toast(
+        <div>
+          <span className="text-sm font-semibold text-red-700">
+            Erro ao remover o produto do carrinho
+          </span>
+        </div>,
+      );
+    },
+  });
+  const handleDeleteClick = () => {
+    removeProductFromCartMutation.mutate();
+  };
   const imageUrl =
     productVariantImageUrl === null ? ImageNull : productVariantImageUrl;
   return (
@@ -55,7 +85,7 @@ const CartItem = ({
           </div>
         </div>
         <div className="flex flex-col items-end justify-center gap-1">
-          <Button size="icon" variant="ghost" onClick={() => {}}>
+          <Button size="icon" variant="ghost" onClick={handleDeleteClick}>
             <Trash2Icon className="text-red-400" />
           </Button>
           <p className="text-sm font-semibold">
