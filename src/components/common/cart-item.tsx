@@ -3,7 +3,7 @@ import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
-import { removeProductFromCart } from "@/actions/remove-cart-product";
+import { decreaseCartProductOrRemove } from "@/actions/decrease-cart-product-or-remove";
 import { STORAGE_URL } from "@/db/cloudflare";
 
 import { Button } from "../ui/button";
@@ -28,31 +28,35 @@ const CartItem = ({
   productVariantQuantity,
 }: CartItemProps) => {
   const queryClient = useQueryClient();
-  const removeProductFromCartMutation = useMutation({
-    mutationKey: ["remove-cart-product"],
-    mutationFn: () => removeProductFromCart({ cartItemId: id }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-      toast(
-        <div>
-          <span className="text-sm font-semibold text-sky-700">
-            Produto removido do carrinho
-          </span>
-        </div>,
-      );
-    },
-    onError: () => {
-      toast(
-        <div>
-          <span className="text-sm font-semibold text-red-700">
-            Erro ao remover o produto do carrinho
-          </span>
-        </div>,
-      );
-    },
+  const decreaseCartProductOrRemoveMutation = useMutation({
+    mutationKey: ["decrease-cart-product-or-remove"],
+    mutationFn: () => decreaseCartProductOrRemove({ cartItemId: id }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
   });
+  const handleDecreaseClick = () => {
+    decreaseCartProductOrRemoveMutation.mutate();
+  };
   const handleDeleteClick = () => {
-    removeProductFromCartMutation.mutate();
+    decreaseCartProductOrRemoveMutation.mutate(undefined, {
+      onSuccess: () => {
+        toast.success(
+          <div>
+            <span className="text-sm font-semibold text-sky-700">
+              Produto removido do carrinho
+            </span>
+          </div>,
+        );
+      },
+      onError: () => {
+        toast.error(
+          <div>
+            <span className="text-sm font-semibold text-red-700">
+              Erro ao remover o produto do carrinho
+            </span>
+          </div>,
+        );
+      },
+    });
   };
   const imageUrl =
     productVariantImageUrl === null ? ImageNull : productVariantImageUrl;
@@ -74,9 +78,20 @@ const CartItem = ({
               {productVariantName}
             </p>
             <div className="flex w-25 items-center justify-between rounded-lg p-1">
-              <Button size="icon" variant="ghost" onClick={() => {}}>
-                <MinusIcon />
-              </Button>
+              {productVariantQuantity === 1 ? (
+                <Button size="icon" variant="ghost" onClick={handleDeleteClick}>
+                  <Trash2Icon className="text-red-400" />
+                </Button>
+              ) : (
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleDecreaseClick}
+                >
+                  <MinusIcon />
+                </Button>
+              )}
+
               <p>{productVariantQuantity}</p>
               <Button size="icon" variant="ghost" onClick={() => {}}>
                 <PlusIcon />
@@ -85,9 +100,6 @@ const CartItem = ({
           </div>
         </div>
         <div className="flex flex-col items-end justify-center gap-1">
-          <Button size="icon" variant="ghost" onClick={handleDeleteClick}>
-            <Trash2Icon className="text-red-400" />
-          </Button>
           <p className="text-sm font-semibold">
             {formatCentsToUnits(productVariantPriceInCents)}
           </p>

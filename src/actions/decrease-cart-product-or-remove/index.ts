@@ -8,14 +8,14 @@ import { cartItemTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 import {
-  RemoveProductFromCartSchema,
-  removeProductFromCartSchema,
+  DecreaseCartProductQuantitySchema,
+  decreaseCartProductQuantitySchema,
 } from "./schema";
 
-export const removeProductFromCart = async (
-  data: RemoveProductFromCartSchema,
+export const decreaseCartProductOrRemove = async (
+  data: DecreaseCartProductQuantitySchema,
 ) => {
-  removeProductFromCartSchema.parse(data);
+  decreaseCartProductQuantitySchema.parse(data);
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -29,12 +29,19 @@ export const removeProductFromCart = async (
       cart: true,
     },
   });
-  const cartDoesNotBelongToUser = cartItem?.cart.userId !== session.user.id;
-  if (cartDoesNotBelongToUser) {
-    throw new Error("Unauthorized");
-  }
   if (!cartItem) {
     throw new Error("Cart item not found");
   }
-  await db.delete(cartItemTable).where(eq(cartItemTable.id, cartItem.id));
+  const cartDoesNotBelongToUser = cartItem.cart.userId !== session.user.id;
+  if (cartDoesNotBelongToUser) {
+    throw new Error("Unauthorized");
+  }
+  if (cartItem.quantity === 1) {
+    await db.delete(cartItemTable).where(eq(cartItemTable.id, cartItem.id));
+    return;
+  }
+  await db
+    .update(cartItemTable)
+    .set({ quantity: cartItem.quantity - 1 })
+    .where(eq(cartItemTable.id, cartItem.id));
 };
