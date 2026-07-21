@@ -3,6 +3,7 @@ import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
+import { addProductToCart } from "@/actions/add-cart-product";
 import { decreaseCartProductOrRemove } from "@/actions/decrease-cart-product-or-remove";
 import { STORAGE_URL } from "@/db/cloudflare";
 
@@ -13,6 +14,7 @@ import { formatCentsToUnits } from "./helpers/money";
 interface CartItemProps {
   id: string;
   productName: string;
+  productVariantId: string;
   productVariantName: string;
   productVariantImageUrl: string | null;
   productVariantPriceInCents: number;
@@ -23,11 +25,17 @@ const CartItem = ({
   id,
   productName,
   productVariantName,
+  productVariantId,
   productVariantImageUrl,
   productVariantPriceInCents,
   productVariantQuantity,
 }: CartItemProps) => {
   const queryClient = useQueryClient();
+  const increaseCartProductOrAddMutation = useMutation({
+    mutationKey: ["increase-cart-product-or-add"],
+    mutationFn: () => addProductToCart({ productVariantId, quantity: 1 }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+  });
   const decreaseCartProductOrRemoveMutation = useMutation({
     mutationKey: ["decrease-cart-product-or-remove"],
     mutationFn: () => decreaseCartProductOrRemove({ cartItemId: id }),
@@ -35,6 +43,9 @@ const CartItem = ({
   });
   const handleDecreaseClick = () => {
     decreaseCartProductOrRemoveMutation.mutate();
+  };
+  const handleIncreaseClick = () => {
+    increaseCartProductOrAddMutation.mutate();
   };
   const handleDeleteClick = () => {
     decreaseCartProductOrRemoveMutation.mutate(undefined, {
@@ -93,7 +104,7 @@ const CartItem = ({
               )}
 
               <p>{productVariantQuantity}</p>
-              <Button size="icon" variant="ghost" onClick={() => {}}>
+              <Button size="icon" variant="ghost" onClick={handleIncreaseClick}>
                 <PlusIcon />
               </Button>
             </div>
