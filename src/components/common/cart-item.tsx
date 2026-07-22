@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MinusIcon, PlusIcon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 
-import { addProductToCart } from "@/actions/add-cart-product";
-import { decreaseCartProductOrRemove } from "@/actions/decrease-cart-product-or-remove";
 import { STORAGE_URL } from "@/db/cloudflare";
+import { useDecreaseCartProductOrRemove } from "@/hooks/mutations/use-decrease-cart-product-or-remove";
+import { useIncreaseCartProductOrAdd } from "@/hooks/mutations/use-increase-cart-product-or-add";
 
 import { Button } from "../ui/button";
 import { ImageNull } from "./helpers/image_null";
@@ -30,23 +29,19 @@ const CartItem = ({
   productVariantPriceInCents,
   productVariantQuantity,
 }: CartItemProps) => {
-  const queryClient = useQueryClient();
-  const increaseCartProductOrAddMutation = useMutation({
-    mutationKey: ["increase-cart-product-or-add"],
-    mutationFn: () => addProductToCart({ productVariantId, quantity: 1 }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
-  });
-  const decreaseCartProductOrRemoveMutation = useMutation({
-    mutationKey: ["decrease-cart-product-or-remove"],
-    mutationFn: () => decreaseCartProductOrRemove({ cartItemId: id }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
-  });
+  const increaseCartProductOrAddMutation =
+    useIncreaseCartProductOrAdd(productVariantId);
+
+  const decreaseCartProductOrRemoveMutation =
+    useDecreaseCartProductOrRemove(id);
+
   const handleDecreaseClick = () => {
     decreaseCartProductOrRemoveMutation.mutate();
   };
   const handleIncreaseClick = () => {
     increaseCartProductOrAddMutation.mutate();
   };
+
   const handleDeleteClick = () => {
     decreaseCartProductOrRemoveMutation.mutate(undefined, {
       onSuccess: () => {
@@ -69,6 +64,7 @@ const CartItem = ({
       },
     });
   };
+
   const imageUrl =
     productVariantImageUrl === null ? ImageNull : productVariantImageUrl;
   return (

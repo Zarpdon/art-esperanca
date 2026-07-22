@@ -40,7 +40,6 @@ export const getCart = async () => {
       totalPriceInCents: 0,
     };
   }
-  console.log(cart.items);
 
   return {
     ...cart,
