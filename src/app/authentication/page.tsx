@@ -1,7 +1,4 @@
-import Link from "next/link";
-
-import { Header } from "@/components/common/header";
-import { Button } from "@/components/ui/button";
+import { Header } from "@/components/common/structure-or-layout/header";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import SignInForm from "./components/sign-in-form";

@@ -1,6 +1,7 @@
 "use client";
 
 import { Loader2, ShoppingCartIcon } from "lucide-react";
+import Link from "next/link";
 
 import { useCart } from "@/hooks/queries/use-cart";
 
@@ -89,8 +90,8 @@ export const Cart = () => {
                 <p>{formatCentsToUnits(cart?.totalPriceInCents ?? 0)}</p>
               </div>
               <div className="flex px-5">
-                <Button className="mt-3 w-full rounded-full">
-                  Finalizar compra
+                <Button className="mt-3 w-full rounded-full" asChild>
+                  <Link href="/identificacao">Finalizar compra</Link>
                 </Button>
               </div>
             </div>

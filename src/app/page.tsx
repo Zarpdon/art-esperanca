@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 import CategorySelector from "@/components/common/caregory-selector";
-import { Header } from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
+import { Header } from "@/components/common/structure-or-layout/header";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";

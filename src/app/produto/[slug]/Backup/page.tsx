@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
-import { Header } from "@/components/common/header";
 import ProductList from "@/components/common/product-list";
 import ProductDetails from "@/components/common/product-page/product-details";
+import { Header } from "@/components/common/structure-or-layout/header";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
