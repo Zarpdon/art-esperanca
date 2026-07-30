@@ -85,7 +85,7 @@ const AddAddressForm = () => {
   };
 
   return (
-    <Card className="mt-4">
+    <Card className="mt-4 mb-4 shadow-none ring-0">
       <CardHeader>
         <CardTitle className="text-base">Novo endereço</CardTitle>
       </CardHeader>
@@ -159,9 +159,9 @@ const AddAddressForm = () => {
                       }
                       onBlur={field.onBlur}
                       name={field.name}
-                      format="(##) #####-####"
+                      format="(##) ##### - ####"
                       customInput={Input}
-                      placeholder="Somente números"
+                      placeholder="(11) 98765 - 4321 "
                       className="w-full"
                     />
                   </FormControl>
@@ -186,7 +186,7 @@ const AddAddressForm = () => {
                       name={field.name}
                       format="#####-###"
                       customInput={Input}
-                      placeholder="Somente números"
+                      placeholder="00000-000"
                       className="w-full"
                     />
                   </FormControl>
@@ -281,9 +281,15 @@ const AddAddressForm = () => {
           </CardContent>
 
           <CardFooter>
-            <Button type="submit" disabled={mutation.isPending}>
-              {mutation.isPending ? "Salvando..." : "Salvar endereço"}
-            </Button>
+            <div className="w-full">
+              <Button
+                className="w-full p-4"
+                type="submit"
+                disabled={mutation.isPending}
+              >
+                {mutation.isPending ? "Salvando..." : "Salvar endereço"}
+              </Button>
+            </div>
           </CardFooter>
         </form>
       </Form>

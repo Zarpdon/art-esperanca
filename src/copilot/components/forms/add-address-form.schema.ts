@@ -25,7 +25,7 @@ export const addAddressFormSchema = z.object({
 
   cep: z
     .string()
-    .refine((v) => v.replace(/\D/g, "").length === 8, "Celular é obrigatório."),
+    .refine((v) => v.replace(/\D/g, "").length === 8, "Cep é obrigatório."),
 
   address: z.string().trim().min(1, "Endereço é obrigatório."),
 

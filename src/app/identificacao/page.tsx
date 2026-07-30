@@ -35,7 +35,7 @@ const identificationPage = async () => {
   return (
     <>
       <Header />
-      <div className="px-5">
+      <div className="p-5">
         <Addresses />
       </div>
     </>
