@@ -159,7 +159,7 @@ const AddAddressForm = () => {
                       }
                       onBlur={field.onBlur}
                       name={field.name}
-                      format="(##) ##### - ####"
+                      format="(##) #####-####"
                       customInput={Input}
                       placeholder="(11) 98765 - 4321 "
                       className="w-full"
