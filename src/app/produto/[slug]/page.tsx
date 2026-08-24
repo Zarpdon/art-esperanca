@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 
 import ProductList from "@/components/common/product-list";
 import ProductDetails from "@/components/common/product-page/product-details";
-import { Header } from "@/components/common/structure-or-layout/header";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 
@@ -32,7 +31,6 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   });
   return (
     <>
-      <Header />
       <div className="flex flex-col space-y-6">
         <ProductDetails
           variantTitle="Variações Disponíveis:"

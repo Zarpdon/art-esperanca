@@ -4,7 +4,6 @@ import Link from "next/link";
 
 import CategorySelector from "@/components/common/caregory-selector";
 import ProductList from "@/components/common/product-list";
-import { Header } from "@/components/common/structure-or-layout/header";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
@@ -27,10 +26,6 @@ const Home = async () => {
   const categories = await db.query.categoryTable.findMany();
   return (
     <div>
-      <div>
-        <Header />
-      </div>
-
       <div className="space-y-6">
         <div className="px-0">
           <Image

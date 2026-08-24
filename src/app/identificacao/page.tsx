@@ -2,13 +2,12 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { Header } from "@/components/common/structure-or-layout/header";
 import Addresses from "@/components/common/users/addresses";
 import { db } from "@/db";
 import { cartTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
-const identificationPage = async () => {
+const IdentificationPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -34,7 +33,6 @@ const identificationPage = async () => {
   }
   return (
     <>
-      <Header />
       <div className="p-5">
         <Addresses />
       </div>
@@ -42,4 +40,4 @@ const identificationPage = async () => {
   );
 };
 
-export default identificationPage;
+export default IdentificationPage;

@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
 
+import ConditionalFooter from "@/components/common/structure-or-layout/conditional-footer";
+import ConditionalHeader from "@/components/common/structure-or-layout/conditional-header";
 import { Toaster } from "@/components/ui/sonner";
 import ReactQueryProvider from "@/providers/react-query";
 
@@ -33,18 +35,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-dvh flex-col antialiased`}
       >
         <ReactQueryProvider>
-          <div className="flex w-full flex-1 flex-col">{children}</div>
-        </ReactQueryProvider>
-        <Toaster />
-        <footer className="bg-accent mt-auto w-full gap-1 p-8">
-          <div className="space-y-1 p-1 text-xs font-medium">
-            <p>&copy; 2026 Zarpdon.</p>
-
-            <p className="text-muted-foreground">
-              Todos os direitos reservados.
-            </p>
+          <div className="flex w-full flex-1 flex-col">
+            <ConditionalHeader />
+            {children}
           </div>
-        </footer>
+        </ReactQueryProvider>
+        <Toaster position="top-center" />
+        <ConditionalFooter />
       </body>
     </html>
   );

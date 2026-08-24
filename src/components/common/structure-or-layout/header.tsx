@@ -17,10 +17,15 @@ import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Cart } from "../cart";
 
-export const Header = () => {
+interface HeaderProps {
+  withCart: boolean;
+}
+
+const Header = ({ withCart }: HeaderProps) => {
   const { data: session } = authClient.useSession();
+
   return (
-    <div className="px-2">
+    <div className="bg-accent px-2">
       <header className="flex items-center justify-between p-3">
         <Link className="hover:opacity-50" href="/" aria-label="Logo Zarpdon">
           <Image
@@ -31,7 +36,7 @@ export const Header = () => {
           />
         </Link>
         <div className="flex items-center gap-5">
-          <Cart />
+          {withCart && <Cart />}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon">
@@ -95,3 +100,5 @@ export const Header = () => {
     </div>
   );
 };
+
+export default Header;

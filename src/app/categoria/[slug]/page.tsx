@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
 import ProductItem from "@/components/common/product-item";
-import { Header } from "@/components/common/structure-or-layout/header";
 import { db } from "@/db";
 import { categoryTable, productTable } from "@/db/schema";
 
@@ -26,7 +25,6 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
   });
   return (
     <>
-      <Header />
       <div className="space-y-6 px-5">
         <h2 className="px-3 py-2 text-xl font-semibold">{category.name}</h2>
         <div className="grid grid-cols-2 gap-5">

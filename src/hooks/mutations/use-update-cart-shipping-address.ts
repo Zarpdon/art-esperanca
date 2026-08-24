@@ -8,9 +8,9 @@ export const UPDATE_CART_SHIPPING_ADDRESS_MUTATION_KEY = [
   "update-cart-shipping-address",
 ] as const;
 
-type address = {
+interface address {
   shippingAddressId: string;
-};
+}
 
 export const useUpdateCartShippingAddress = () => {
   const router = useRouter();
@@ -18,8 +18,12 @@ export const useUpdateCartShippingAddress = () => {
     mutationKey: UPDATE_CART_SHIPPING_ADDRESS_MUTATION_KEY,
     mutationFn: (data: address) => updateCartShippingAddress(data),
     onSuccess: () => {
-      toast.success("Endereço de entrega atualizado com sucesso!");
-      router.push("/");
+      toast.success("Endereço de entrega aplicado com sucesso!");
+      router.push("/checkout");
+    },
+    onError: () => {
+      toast.error("Erro ao aplicar endereço de entrega");
+      router.push("/identificacao");
     },
   });
 };

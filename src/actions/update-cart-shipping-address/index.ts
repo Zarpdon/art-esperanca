@@ -16,18 +16,21 @@ export const updateCartShippingAddress = async (
   data: UpdateCartShippingAddressSchema,
 ) => {
   updateCartShippingAddressSchema.parse(data);
+
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   if (!session?.user) {
     throw new Error("Unauthorized");
   }
+
   const cart = await db.query.cartTable.findFirst({
     where: (cart, { eq }) => eq(cart.userId, session.user.id),
   });
   if (!cart) {
     throw new Error("Cart not found");
   }
+
   const address = await db.query.shippingAddressTable.findFirst({
     where: (shippingAddress, { eq }) =>
       eq(shippingAddress.id, data.shippingAddressId),
@@ -38,6 +41,7 @@ export const updateCartShippingAddress = async (
   if (address.userId !== session.user.id) {
     throw new Error("Unauthorized");
   }
+
   await db
     .update(cartTable)
     .set({
