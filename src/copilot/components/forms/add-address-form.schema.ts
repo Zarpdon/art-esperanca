@@ -3,15 +3,13 @@ import z from "zod";
 const onlyLettersRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 
 export const addAddressFormSchema = z.object({
-  email: z.email("E-mail inválido."),
-
   fullName: z
     .string()
     .trim()
     .min(1, "Nome é obrigatório.")
     .regex(onlyLettersRegex, "Nome inválido."),
 
-  cpf: z
+  document: z
     .string()
     .refine((v) => v.replace(/\D/g, "").length === 11, "CPF é obrigatório."),
 

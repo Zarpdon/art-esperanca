@@ -34,9 +34,8 @@ const AddAddressForm = () => {
   const form = useForm<AddAddressFormValues>({
     resolver: zodResolver(addAddressFormSchema),
     defaultValues: {
-      email: "",
       fullName: "",
-      cpf: "",
+      document: "",
       mobile: "",
       cep: "",
       address: "",
@@ -59,9 +58,8 @@ const AddAddressForm = () => {
           </div>,
         );
         form.reset({
-          email: "",
           fullName: "",
-          cpf: "",
+          document: "",
           mobile: "",
           cep: "",
           address: "",
@@ -94,20 +92,6 @@ const AddAddressForm = () => {
           <CardContent className="grid gap-4 md:grid-cols-2">
             <FormField
               control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Digite seu email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="fullName"
               render={({ field }) => (
                 <FormItem>
@@ -122,7 +106,7 @@ const AddAddressForm = () => {
 
             <FormField
               control={form.control}
-              name="cpf"
+              name="document"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>CPF</FormLabel>

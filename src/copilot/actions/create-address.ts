@@ -7,9 +7,7 @@ import { shippingAddressTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
 export interface CreateAddressInput {
-  email: string;
   fullName: string;
-  cpf: string;
   mobile: string;
   cep: string;
   address: string;
@@ -18,6 +16,7 @@ export interface CreateAddressInput {
   neighborhood: string;
   city: string;
   state: string;
+  document: string;
 }
 
 export async function createAddress(data: CreateAddressInput) {
@@ -40,6 +39,7 @@ export async function createAddress(data: CreateAddressInput) {
     state: data.state,
     zipCode: data.cep,
     country: "BR",
+    document: data.document,
     phone: data.mobile,
   });
 }

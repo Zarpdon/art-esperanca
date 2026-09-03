@@ -16,7 +16,7 @@ const CartSummary = () => {
   } = useCart();
 
   return (
-    <div className="px-5 py-10">
+    <div>
       <Card className="p-5">
         <CardHeader>
           <CardTitle className="pb-5 text-lg font-bold">Seu pedido</CardTitle>
@@ -62,7 +62,7 @@ const CartSummary = () => {
                   className="flex items-center gap-10 md:justify-start"
                   key={item.id}
                 >
-                  <div>
+                  <div className="min-h-19.5 min-w-19.5">
                     <Image
                       src={
                         STORAGE_URL +

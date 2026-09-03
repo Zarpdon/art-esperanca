@@ -89,8 +89,8 @@ export const Cart = () => {
                 <p>Total</p>
                 <p>{formatCentsToUnits(cart?.totalPriceInCents ?? 0)}</p>
               </div>
-              <div className="flex px-5">
-                <Button className="mt-3 w-full rounded-full" asChild>
+              <div className="flex h-full px-5 pb-16">
+                <Button className="mt-3 w-full rounded-full p-4" asChild>
                   <Link href="/identificacao">Finalizar compra</Link>
                 </Button>
               </div>
