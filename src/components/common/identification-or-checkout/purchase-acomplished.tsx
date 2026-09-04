@@ -26,7 +26,7 @@ const PurchaseAcomplished = () => {
 
       <div className="w-full px-10">
         <div className="mx-auto flex w-full max-w-sm flex-col gap-5">
-          {order && !Array.isArray(order) && (
+          {order && (
             <Button asChild className="w-full justify-between py-5 text-lg">
               <Link href={`/pedido/${order?.id}`}>
                 <p className="pr-5"></p>
