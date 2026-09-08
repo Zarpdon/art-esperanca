@@ -55,7 +55,7 @@ export const createOrder = async () => {
 
   const totalPriceInCents = subTotalPriceInCents + 0;
 
-  await db.transaction(async (tx) => {
+  return await db.transaction(async (tx) => {
     const [order] = await tx
       .insert(orderTable)
       .values({
@@ -92,5 +92,7 @@ export const createOrder = async () => {
       })),
     );
     await tx.delete(cartTable).where(eq(cartTable.id, cart.id));
+
+    return order.id;
   });
 };

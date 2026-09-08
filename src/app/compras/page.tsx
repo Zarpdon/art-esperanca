@@ -3,7 +3,9 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { db } from "@/db";
+import { getOrders } from "@/components/common/helpers/get-orders";
+import { ImageNull } from "@/components/common/helpers/image_null";
+import { Separator } from "@/components/ui/separator";
 import { auth } from "@/lib/auth";
 
 import OrderCard from "./components/order-card";
@@ -16,39 +18,29 @@ const ComprasPage = async () => {
     redirect("/authentication");
   }
 
-  const orders = await db.query.orderTable.findMany({
-    where: (orders, { eq }) => eq(orders.userId, session.user.id),
-    orderBy: (order, { desc }) => desc(order.createdAt),
-    with: {
-      items: {
-        with: {
-          productVariant: {
-            with: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const orders = await getOrders(session.user.id);
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center gap-4 py-20">
+      <div className="flex items-center justify-center gap-4 py-8">
         <h1 className="text-4xl font-bold">Compras</h1>
       </div>
       {orders.map((order) => (
-        <div key={order.id} className="flex flex-col items-center gap-4 py-10">
-          <OrderCard
-            id={order.id}
-            date={order.createdAt}
-            status={order.shippingStatus}
-            name={order.shippingName}
-            quantity={order.items[0].quantity}
-            image={order.shippingDocument}
-            subtotal={order.items[0].priceInCents}
-            total={order.priceTotalInCents}
-          />
+        <div key={order.id}>
+          <div className="items-center gap-4 px-3 pt-5">
+            <OrderCard
+              id={order.id}
+              date={order.createdAt}
+              status={order.shippingStatus}
+              name={order.items[0].productName}
+              variant={order.items[0].productVariantName}
+              quantity={order.items[0].quantity}
+              image={order.items[0].productVariant?.imageUrl ?? ImageNull}
+              subtotal={order.items[0].priceInCents}
+              total={order.priceTotalInCents}
+            />
+          </div>
+          <Separator className="mx-4 my-4" />
         </div>
       ))}
     </>

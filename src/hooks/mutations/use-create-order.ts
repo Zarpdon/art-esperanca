@@ -13,7 +13,7 @@ export const useCreateOrder = () => {
   return useMutation({
     mutationKey: CREATE_ORDER_MUTATION_KEY,
     mutationFn: () => createOrder(),
-    onSuccess: () => {
+    onSuccess: (orderId) => {
       queryClient.invalidateQueries({ queryKey: CART_QUERY_KEY });
     },
     onError: () => {

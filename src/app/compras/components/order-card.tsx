@@ -1,7 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
+import { formatCentsToUnits } from "@/components/common/helpers/money";
+import { Button } from "@/components/ui/button";
 import { STORAGE_URL } from "@/db/cloudflare";
 
 interface OrderCardProps {
@@ -9,6 +12,7 @@ interface OrderCardProps {
   date: Date;
   status: "pending" | "shipped" | "delivered" | "canceled" | "returned";
   name: string;
+  variant: string;
   quantity: number;
   image: string;
   subtotal: number;
@@ -20,6 +24,7 @@ const OrderCard = ({
   date,
   status,
   name,
+  variant,
   quantity,
   image,
   subtotal,
@@ -52,34 +57,77 @@ const OrderCard = ({
     navigator.clipboard.writeText(id);
   };
 
+  const router = useRouter();
+  const handleOrder = () => {
+    router.push(`/pedido/${id}`);
+  };
+
   return (
-    <div>
-      <p>
-        <span className="text-muted-foreground">
-          Id do pedido: {id.slice(0, 16)}...{" "}
-        </span>
-        <span
-          onClick={handleCopy}
-          className="text-blue-600 hover:cursor-pointer hover:text-red-500"
+    <div className="w-full px-3 hover:cursor-pointer" onClick={handleOrder}>
+      <div onClick={(e) => e.stopPropagation()}>
+        <p className="flex">
+          <span className="truncate">
+            <span className="">Id do pedido:</span>
+            <span className="text-muted-foreground">{id}</span>
+          </span>
+          <span
+            onClick={handleCopy}
+            className="ml-1.5 text-blue-600 hover:cursor-pointer hover:text-red-500"
+          >
+            Copiar
+          </span>
+        </p>
+        <p>Data: {date.toLocaleDateString("pt-BR")}</p>
+        <p>
+          Status:{" "}
+          <span className={statusConfig[status].className}>
+            {" "}
+            {statusConfig[status].label}
+          </span>
+        </p>
+      </div>
+
+      <div className="flex-col-2 my-2 flex gap-3">
+        <div className="shrink-0">
+          <Image
+            src={STORAGE_URL + image}
+            alt="Imagem do pedido"
+            width={80}
+            height={80}
+          />
+        </div>
+        <div>
+          <p className="line-clamp-1">{name}</p>
+          <p className="line-clamp-1">{variant}</p>
+          <p className="mt-3 truncate">
+            {formatCentsToUnits(subtotal)}{" "}
+            <span className="text-muted-foreground"> x{quantity}</span>
+          </p>
+        </div>
+
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="mx-0.5 ml-auto flex flex-col items-center gap-1.5"
         >
-          Copiar
-        </span>
-      </p>
-      <p>Data: {date.toLocaleDateString("pt-BR")}</p>
-      <p className={statusConfig[status].className}>
-        {statusConfig[status].label}
-      </p>
-      <p>{name}</p>
-      <p>x{quantity}</p>
-      <Image
-        src={STORAGE_URL + image}
-        alt="Imagem do pedido"
-        width={100}
-        height={100}
-      />
-      <p>{subtotal}</p>
-      <p>{total}</p>
-      <p>Mais</p>
+          <Button className="w-full rounded-full px-3 hover:cursor-pointer">
+            Escreva um comentário
+          </Button>
+          <Button
+            className="w-full rounded-full hover:cursor-pointer"
+            variant="outline"
+          >
+            Comprar Novamente
+          </Button>
+          <Button
+            className="w-full rounded-full hover:cursor-pointer"
+            variant="outline"
+          >
+            Mais
+          </Button>
+
+          <p className="">Total: {formatCentsToUnits(total)}</p>
+        </div>
+      </div>
     </div>
   );
 };

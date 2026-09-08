@@ -4,8 +4,12 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useOrder } from "@/hooks/queries/use-order";
 
-const PurchaseAcomplished = () => {
-  const { data: order } = useOrder();
+interface PurchaseAcomplishedProps {
+  orderId: string;
+}
+
+const PurchaseAcomplished = ({ orderId }: PurchaseAcomplishedProps) => {
+  const { data: order } = useOrder(orderId);
 
   return (
     <div className="flex flex-col items-center gap-4 py-10">
@@ -28,7 +32,7 @@ const PurchaseAcomplished = () => {
         <div className="mx-auto flex w-full max-w-sm flex-col gap-5">
           {order && (
             <Button asChild className="w-full justify-between py-5 text-lg">
-              <Link href={`/pedido/${order?.id}`}>
+              <Link href={`/pedido/${order.id}`}>
                 <p className="pr-5"></p>
                 Ver Pedido
                 <ChevronRight />

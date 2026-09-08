@@ -2,6 +2,8 @@
 
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 import { formatCentsToUnits } from "@/components/common/helpers/money";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,6 +16,14 @@ const CartSummary = () => {
     isPending: cartIsPending,
     isError: cartIsError,
   } = useCart();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!cartIsPending && (!cart || cart.items.length === 0)) {
+      router.push("/identificacao");
+    }
+  }, [cart, cartIsPending, router]);
 
   return (
     <div>

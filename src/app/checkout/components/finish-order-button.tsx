@@ -11,9 +11,12 @@ const FinishOrderButton = () => {
   const createOrderMutation = useCreateOrder();
   const [open, setOpen] = useState(false);
 
+  const [orderId, setOrderId] = useState<string>("");
+
   const handleCreateOrder = () => {
     createOrderMutation.mutate(undefined, {
-      onSuccess: () => {
+      onSuccess: (orderId) => {
+        setOrderId(orderId);
         setOpen(true);
       },
     });
@@ -32,7 +35,7 @@ const FinishOrderButton = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent showCloseButton={false}>
           <DialogTitle></DialogTitle>
-          <PurchaseAcomplished />
+          <PurchaseAcomplished orderId={orderId} />
         </DialogContent>
       </Dialog>
       ;

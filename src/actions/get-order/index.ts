@@ -2,15 +2,14 @@
 
 import { headers } from "next/headers";
 
-import { db } from "@/db";
+import { getOrders } from "@/components/common/helpers/get-orders";
 import { auth } from "@/lib/auth";
 
-interface GetOrder {
-  page?: boolean;
-  specificId?: string;
+interface GetOrderId {
+  orderId: string;
 }
 
-export const getOrder = async ({ page, specificId }: GetOrder = {}) => {
+export const getOrder = async ({ orderId }: GetOrderId) => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -18,35 +17,13 @@ export const getOrder = async ({ page, specificId }: GetOrder = {}) => {
     throw new Error("Unauthorized");
   }
 
-  const orders = await db.query.orderTable.findMany({
-    where: (orders, { eq }) => eq(orders.userId, session.user.id),
-    orderBy: (order, { desc }) => desc(order.createdAt),
-    with: {
-      items: {
-        with: {
-          productVariant: {
-            with: {
-              product: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const orders = await getOrders(session.user.id);
+
   if (orders.length === 0) {
     throw new Error("Order not found");
   }
 
-  if (page === true) {
-    return orders.map((order) => ({
-      ...order,
-    }));
-  }
-  if (specificId) {
-    return orders.find((order) => order.id === specificId);
-  }
-
-  const exportOrder = orders[0];
+  const exportOrder = orders.find((order) => order.id === orderId);
 
   return exportOrder;
 };
