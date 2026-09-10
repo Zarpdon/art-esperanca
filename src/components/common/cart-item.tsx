@@ -80,7 +80,9 @@ const CartItem = ({
           />
 
           <div className="flex flex-col gap-1">
-            <p className="text-md font-semibold">{productName.slice(0, 35)}</p>
+            <p className="text-md line-clamp-1 w-full font-semibold">
+              {productName}
+            </p>
             <p className="text-muted-foreground text-xs font-medium">
               {productVariantName}
             </p>
@@ -106,7 +108,7 @@ const CartItem = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-end justify-center gap-1">
+        <div className="mt-3 flex flex-col items-end gap-1">
           <p className="text-sm font-semibold">
             {formatCentsToUnits(productVariantPriceInCents)}
           </p>

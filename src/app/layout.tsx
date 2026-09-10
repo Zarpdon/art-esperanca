@@ -40,7 +40,7 @@ export default function RootLayout({
             {children}
           </div>
         </ReactQueryProvider>
-        <Toaster position="top-center" />
+        <Toaster position="bottom-left" />
         <ConditionalFooter />
       </body>
     </html>

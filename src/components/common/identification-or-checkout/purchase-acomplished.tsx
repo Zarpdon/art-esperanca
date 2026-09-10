@@ -31,7 +31,10 @@ const PurchaseAcomplished = ({ orderId }: PurchaseAcomplishedProps) => {
       <div className="w-full px-10">
         <div className="mx-auto flex w-full max-w-sm flex-col gap-5">
           {order && (
-            <Button asChild className="w-full justify-between py-5 text-lg">
+            <Button
+              asChild
+              className="w-full justify-between rounded-full py-5 text-lg"
+            >
               <Link href={`/pedido/${order.id}`}>
                 <p className="pr-5"></p>
                 Ver Pedido
@@ -40,7 +43,11 @@ const PurchaseAcomplished = ({ orderId }: PurchaseAcomplishedProps) => {
             </Button>
           )}
 
-          <Button asChild variant="ghost" className="gap-3 text-lg">
+          <Button
+            asChild
+            variant="ghost"
+            className="gap-3 rounded-full text-lg"
+          >
             <Link href="/">
               <House className="size-5" />
               Voltar ao início

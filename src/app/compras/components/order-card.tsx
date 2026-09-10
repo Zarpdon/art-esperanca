@@ -94,6 +94,7 @@ const OrderCard = ({
             alt="Imagem do pedido"
             width={80}
             height={80}
+            className="rounded-lg"
           />
         </div>
         <div>

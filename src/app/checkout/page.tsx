@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { getCart } from "@/actions/get-cart";
 import CartSummary from "@/components/common/identification-or-checkout/cart-summary";
 import CheckoutAddress from "@/components/common/identification-or-checkout/checkout-address";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,11 @@ const CheckoutPage = async () => {
   if (!session?.user) {
     redirect("/authentication");
   }
+  const cart = await getCart();
+  if (!cart || cart.items.length === 0) {
+    redirect("/identificacao");
+  }
+
   return (
     <>
       <div className="p-5">
