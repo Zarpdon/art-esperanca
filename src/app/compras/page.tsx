@@ -31,7 +31,8 @@ const ComprasPage = async () => {
             <OrderCard
               id={order.id}
               date={order.createdAt}
-              status={order.shippingStatus}
+              status={order.status}
+              shippingStatus={order.shippingStatus}
               name={order.items[0].productName}
               variant={order.items[0].productVariantName}
               quantity={order.items[0].quantity}

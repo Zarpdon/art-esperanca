@@ -10,7 +10,8 @@ import { STORAGE_URL } from "@/db/cloudflare";
 interface OrderCardProps {
   id: string;
   date: Date;
-  status: "pending" | "shipped" | "delivered" | "canceled" | "returned";
+  status: "pending" | "paid" | "canceled";
+  shippingStatus: "pending" | "shipped" | "delivered" | "canceled" | "returned";
   name: string;
   variant: string;
   quantity: number;
@@ -23,6 +24,7 @@ const OrderCard = ({
   id,
   date,
   status,
+  shippingStatus,
   name,
   variant,
   quantity,
@@ -30,9 +32,9 @@ const OrderCard = ({
   subtotal,
   total,
 }: OrderCardProps) => {
-  const statusConfig = {
+  const shippingStatusConfig = {
     pending: {
-      label: "Pagamento pendente",
+      label: "Envio pendente",
       className: "text-yellow-600",
     },
     shipped: {
@@ -50,6 +52,21 @@ const OrderCard = ({
     returned: {
       label: "Pedido devolvido",
       className: "text-orange-600",
+    },
+  };
+
+  const statusConfig = {
+    pending: {
+      label: "Aguardando pagamento",
+      className: "text-yellow-600",
+    },
+    paid: {
+      label: "Pagamento confirmado",
+      className: "text-green-600",
+    },
+    canceled: {
+      label: "Pedido cancelado",
+      className: "text-red-600",
     },
   };
 
@@ -78,13 +95,23 @@ const OrderCard = ({
           </span>
         </p>
         <p>Data: {date.toLocaleDateString("pt-BR")}</p>
-        <p>
-          Status:{" "}
-          <span className={statusConfig[status].className}>
-            {" "}
-            {statusConfig[status].label}
-          </span>
-        </p>
+        {shippingStatus !== "delivered" && (
+          <p>
+            Status:{" "}
+            <span className={statusConfig[status].className}>
+              {" "}
+              {statusConfig[status].label}
+            </span>
+          </p>
+        )}
+        {status !== "pending" && (
+          <p>
+            <span className={shippingStatusConfig[shippingStatus].className}>
+              {" "}
+              {shippingStatusConfig[shippingStatus].label}
+            </span>
+          </p>
+        )}
       </div>
 
       <div className="flex-col-2 my-2 flex gap-3">
@@ -110,21 +137,30 @@ const OrderCard = ({
           onClick={(e) => e.stopPropagation()}
           className="mx-0.5 ml-auto flex flex-col items-center gap-1.5"
         >
-          <Button className="w-full rounded-full px-3 hover:cursor-pointer">
-            Escreva um comentário
-          </Button>
-          <Button
-            className="w-full rounded-full hover:cursor-pointer"
-            variant="outline"
-          >
-            Comprar Novamente
-          </Button>
-          <Button
-            className="w-full rounded-full hover:cursor-pointer"
-            variant="outline"
-          >
-            Mais
-          </Button>
+          {shippingStatus === "delivered" && (
+            <>
+              <Button className="w-full rounded-full px-3 hover:cursor-pointer">
+                Escreva um comentário
+              </Button>
+              <Button
+                className="w-full rounded-full hover:cursor-pointer"
+                variant="outline"
+              >
+                Comprar Novamente
+              </Button>
+              <Button
+                className="w-full min-w-30 rounded-full hover:cursor-pointer"
+                variant="outline"
+              >
+                Mais
+              </Button>
+            </>
+          )}
+          {status === "pending" && (
+            <Button className="w-full rounded-full px-3 hover:cursor-pointer">
+              Pagar agora
+            </Button>
+          )}
 
           <p className="">Total: {formatCentsToUnits(total)}</p>
         </div>
