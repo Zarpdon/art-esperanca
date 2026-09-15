@@ -1,20 +1,13 @@
 "use server";
 
 import { eq } from "drizzle-orm";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
+import { getUserSession } from "@/components/common/structure-or-layout/session";
 import { db } from "@/db";
 import { cartTable, orderItemTable, orderTable } from "@/db/schema";
-import { auth } from "@/lib/auth";
 
 export const createOrder = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session?.user) {
-    redirect("/authentication");
-  }
+  const session = await getUserSession();
 
   const user = await db.query.userTable.findFirst({
     where: (user, { eq }) => eq(user.id, session.user.id),

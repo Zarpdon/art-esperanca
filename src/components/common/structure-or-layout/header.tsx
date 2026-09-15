@@ -3,10 +3,12 @@
 import { LogInIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -16,6 +18,7 @@ import { authClient } from "@/lib/auth-client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import { Cart } from "../cart";
+import { ComprasIcon, useComprasClick } from "../compras-icon";
 
 interface HeaderProps {
   withCart: boolean;
@@ -23,6 +26,14 @@ interface HeaderProps {
 
 const Header = ({ withCart }: HeaderProps) => {
   const { data: session } = authClient.useSession();
+
+  const router = useRouter();
+
+  const handleComprasClick = useComprasClick();
+
+  const handleLogIn = () => {
+    router.push("/authentication");
+  };
 
   return (
     <div className="bg-accent px-2">
@@ -79,17 +90,37 @@ const Header = ({ withCart }: HeaderProps) => {
                         <LogOutIcon />
                       </Button>
                     </div>
+                    <div>
+                      <SheetClose asChild>
+                        <span>
+                          <ComprasIcon onClick={handleComprasClick} />
+                        </span>
+                      </SheetClose>
+                    </div>
                   </>
                 ) : (
                   <div className="flex items-center justify-between">
-                    <h2 className="font-semibold">
-                      <Link href="/authentication">Fazer login</Link>
-                    </h2>
-                    <Button size="icon" asChild variant="outline">
-                      <Link href="/authentication">
-                        <LogInIcon />
-                      </Link>
-                    </Button>
+                    <SheetClose asChild>
+                      <h2
+                        className="font-semibold hover:cursor-pointer"
+                        onClick={handleLogIn}
+                      >
+                        Fazer login
+                      </h2>
+                    </SheetClose>
+                    <SheetClose asChild>
+                      <Button
+                        className="hover:cursor-pointer"
+                        size="icon"
+                        asChild
+                        variant="outline"
+                        onClick={handleLogIn}
+                      >
+                        <span>
+                          <LogInIcon />
+                        </span>
+                      </Button>
+                    </SheetClose>
                   </div>
                 )}
               </div>
