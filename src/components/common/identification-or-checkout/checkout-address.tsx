@@ -12,7 +12,9 @@ const CheckoutAddress = () => {
   return (
     <>
       {isLoading ? (
-        <></>
+        <>
+          <p>Carregando...</p>
+        </>
       ) : (
         <Card>
           <CardContent className="flex items-start justify-between gap-3 py-4">

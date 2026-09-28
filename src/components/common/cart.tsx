@@ -1,6 +1,11 @@
 "use client";
 
-import { Loader2, ShoppingCartIcon } from "lucide-react";
+import {
+  Loader2,
+  LogIn,
+  ShoppingCartIcon,
+  ShoppingCartPlus,
+} from "lucide-react";
 import Link from "next/link";
 
 import { useCart } from "@/hooks/queries/use-cart";
@@ -42,10 +47,30 @@ export const Cart = () => {
           <div className="flex h-full max-h-full flex-col overflow-hidden">
             <ScrollArea className="h-full">
               <div className="flex h-full flex-col gap-5">
+                {cart?.items.length === 0 && (
+                  <>
+                    <div className="mt-30 flex h-full items-center justify-center px-5">
+                      <p>Seu carrinho está vazio</p>
+                    </div>
+                    <div className="flex h-full items-center justify-center px-5">
+                      <p>Adicione produtos para vê-los aqui</p>
+                    </div>
+                    <div className="flex h-full items-center justify-center px-5">
+                      <ShoppingCartPlus className="text-muted-foreground h-8 w-8" />
+                    </div>
+                  </>
+                )}
                 {cartIsError && (
-                  <div className="flex h-full items-center justify-center px-5">
-                    <p>Faça login para ver o seu carrinho</p>
-                  </div>
+                  <>
+                    <div className="mt-30 flex h-full items-center justify-center px-5">
+                      <Link href="/authentication">
+                        <p>Faça login para ver o seu carrinho</p>
+                      </Link>
+                    </div>
+                    <div className="flex h-full items-center justify-center px-5">
+                      <LogIn className="text-muted-foreground h-8 w-8" />
+                    </div>
+                  </>
                 )}
                 {cartIsPending && (
                   <div className="flex h-full items-center justify-center px-5">

@@ -4,6 +4,7 @@ import { formatCentsToUnits } from "@/components/common/helpers/money";
 import { getUserSession } from "@/components/common/structure-or-layout/session";
 import { Separator } from "@/components/ui/separator";
 
+import OrderAddress from "../components/order-address";
 import OrderItem from "../components/order-item";
 
 interface OrderPageProps {
@@ -23,8 +24,19 @@ const OrderPage = async ({ params }: OrderPageProps) => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-20">
-      <h1 className="text-4xl font-bold">Pedido: {id}</h1>
+    <div className="flex flex-col items-center justify-center gap-4 py-5">
+      <div className="w-full px-5">
+        <OrderAddress
+          id={order.id}
+          name={order.shippingName}
+          street={order.shippingStreet}
+          number={order.shippingNumber}
+          neighborhood={order.shippingNeighborhood}
+          city={order.shippingCity}
+          state={order.shippingState}
+          zipCode={order.shippingZipCode}
+        />
+      </div>
 
       <div className="w-full px-5">
         <p>Composição:</p>

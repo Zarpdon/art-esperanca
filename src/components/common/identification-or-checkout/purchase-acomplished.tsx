@@ -1,3 +1,5 @@
+"use client";
+
 import { ChevronRight, House, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 

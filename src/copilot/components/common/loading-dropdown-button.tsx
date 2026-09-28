@@ -2,8 +2,8 @@
 import * as React from "react";
 import { useEffect, useRef, useState } from "react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Issue = {
   id: string;
@@ -77,21 +77,29 @@ export default function LoadingDropdownButton({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+            <circle
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            />
           </svg>
         )}
 
-        <span className="ml-1 text-xs text-muted-foreground">
+        <span className="text-muted-foreground ml-1 text-xs">
           {errorCount + warnCount}
         </span>
       </Button>
 
       {open && (
-        <div className="absolute right-0 z-50 mt-2 w-80 rounded-md border bg-popover p-2 shadow-lg">
+        <div className="bg-popover absolute right-0 z-50 mt-2 w-80 rounded-md border p-2 shadow-lg">
           <div className="flex items-center justify-between px-2 pb-2">
             <div>
               <p className="text-sm font-medium">Dev overlay</p>
-              <p className="text-xs text-muted-foreground">Status rápido e issues</p>
+              <p className="text-muted-foreground text-xs">
+                Status rápido e issues
+              </p>
             </div>
             <div className="text-right text-xs">
               <div className="text-destructive">Erros: {errorCount}</div>
@@ -101,28 +109,38 @@ export default function LoadingDropdownButton({
 
           <div className="max-h-56 overflow-auto">
             {issues.length === 0 && (
-              <div className="px-2 py-3 text-sm text-muted-foreground">Sem issues</div>
+              <div className="text-muted-foreground px-2 py-3 text-sm">
+                Sem issues
+              </div>
             )}
 
             {issues.map((it) => (
               <div
                 key={it.id}
                 className={cn(
-                  "group/item flex items-start gap-2 rounded px-2 py-2 hover:bg-muted",
-                  it.type === "error" ? "border-l-2 border-destructive/60" : "border-l-2 border-amber-400/60"
+                  "group/item hover:bg-muted flex items-start gap-2 rounded px-2 py-2",
+                  it.type === "error"
+                    ? "border-destructive/60 border-l-2"
+                    : "border-l-2 border-amber-400/60",
                 )}
               >
                 <div className="text-xs font-semibold">
-                  {it.type === "error" ? "Erro" : it.type === "warning" ? "Aviso" : "Info"}
+                  {it.type === "error"
+                    ? "Erro"
+                    : it.type === "warning"
+                      ? "Aviso"
+                      : "Info"}
                 </div>
-                <div className="text-sm text-muted-foreground">{it.message}</div>
+                <div className="text-muted-foreground text-sm">
+                  {it.message}
+                </div>
               </div>
             ))}
           </div>
 
           <div className="mt-2 flex items-center justify-end gap-2 px-2">
             <button
-              className="text-xs text-muted-foreground underline"
+              className="text-muted-foreground text-xs underline"
               onClick={() => alert("Abrir painel de desenvolvimento")}
             >
               Abrir painel

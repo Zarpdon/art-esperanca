@@ -78,7 +78,9 @@ const CartSummary = () => {
                   <div>
                     <p>{item.productVariant.product.name}</p>
                     <p>{item.productVariant.name}</p>
-                    <p>Quantidade: {item.quantity}</p>
+                    <p className="text-muted-foreground">
+                      Quantidade: {item.quantity}
+                    </p>
                     <p>
                       {formatCentsToUnits(item.productVariant.priceInCents)}
                     </p>

@@ -1,29 +1,21 @@
 "use server";
 
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-
 import { getOrders } from "@/components/common/helpers/get-orders";
 import { ImageNull } from "@/components/common/helpers/image_null";
+import { getUserSession } from "@/components/common/structure-or-layout/session";
 import { Separator } from "@/components/ui/separator";
-import { auth } from "@/lib/auth";
 
 import OrderCard from "./components/order-card";
 
 const ComprasPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session?.user) {
-    redirect("/authentication");
-  }
+  const session = await getUserSession();
 
   const orders = await getOrders(session.user.id);
 
   return (
     <>
       <div className="flex items-center justify-center gap-4 py-8">
-        <h1 className="text-4xl font-bold">Compras</h1>
+        <h1 className="text-4xl font-bold">Pedidos</h1>
       </div>
       {orders.map((order) => (
         <div key={order.id}>

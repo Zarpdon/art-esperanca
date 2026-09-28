@@ -61,13 +61,9 @@ export const createCheckoutSession = async (
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
   const checkoutSession = await stripe.checkout.sessions.create({
     //
-    client_reference_id: session.user.id,
-    customer: session.user.name,
-    customer_email: session.user.email,
-    //
     payment_method_types: ["card"],
     mode: "payment",
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success`,
+    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success/${orderId}`,
     cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/cancel`,
     metadata: {
       orderId,

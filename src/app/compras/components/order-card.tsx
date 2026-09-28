@@ -6,12 +6,13 @@ import { useRouter } from "next/navigation";
 import { formatCentsToUnits } from "@/components/common/helpers/money";
 import { Button } from "@/components/ui/button";
 import { STORAGE_URL } from "@/db/cloudflare";
+import { orderTable } from "@/db/schema";
 
 interface OrderCardProps {
   id: string;
   date: Date;
-  status: "pending" | "paid" | "canceled";
-  shippingStatus: "pending" | "shipped" | "delivered" | "canceled" | "returned";
+  status: (typeof orderTable.$inferSelect)["status"];
+  shippingStatus: (typeof orderTable.$inferSelect)["shippingStatus"];
   name: string;
   variant: string;
   quantity: number;

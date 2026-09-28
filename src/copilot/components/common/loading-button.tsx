@@ -1,11 +1,11 @@
 // Copilot Test
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
+import Image from "next/image";
+import React, { useEffect, useRef, useState } from "react";
 
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface LoadingButtonProps {
   loading?: boolean;
@@ -25,16 +25,19 @@ export default function LoadingButton({
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(e.target as Node)
+      ) {
         setOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
   return (
-    <div ref={wrapperRef} className={cn('relative inline-block', className)}>
+    <div ref={wrapperRef} className={cn("relative inline-block", className)}>
       <Button asChild size="sm" variant="ghost">
         <button
           aria-expanded={open}
@@ -42,11 +45,17 @@ export default function LoadingButton({
           onClick={() => setOpen((v) => !v)}
           className="flex items-center gap-2"
         >
-          <div className="relative w-6 h-6">
-            <Image src="/zpd_logo.svg" alt="zpd" width={24} height={24} className={loading ? 'opacity-70' : ''} />
+          <div className="relative h-6 w-6">
+            <Image
+              src="/zpd_logo.svg"
+              alt="zpd"
+              width={24}
+              height={24}
+              className={loading ? "opacity-70" : ""}
+            />
             {loading && (
               <span className="absolute inset-0 flex items-center justify-center">
-                <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
               </span>
             )}
           </div>
@@ -54,24 +63,29 @@ export default function LoadingButton({
       </Button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-72 z-50">
-          <div className="rounded-lg bg-white shadow-lg ring-1 ring-black/5 p-3 dark:bg-muted">
-            <div className="flex items-center justify-between mb-2">
+        <div className="absolute right-0 z-50 mt-2 w-72">
+          <div className="dark:bg-muted rounded-lg bg-white p-3 shadow-lg ring-1 ring-black/5">
+            <div className="mb-2 flex items-center justify-between">
               <span className="font-medium">Status</span>
-              <span className="text-sm text-muted-foreground">
-                {loading ? 'Carregando...' : 'Pronto'}
+              <span className="text-muted-foreground text-sm">
+                {loading ? "Carregando..." : "Pronto"}
               </span>
             </div>
 
-            <ul className="space-y-1 max-h-48 overflow-auto">
+            <ul className="max-h-48 space-y-1 overflow-auto">
               {messages.length > 0 ? (
                 messages.map((m, i) => (
-                  <li key={i} className="text-sm text-muted-foreground truncate">
+                  <li
+                    key={i}
+                    className="text-muted-foreground truncate text-sm"
+                  >
                     {m}
                   </li>
                 ))
               ) : (
-                <li className="text-sm text-muted-foreground">Nenhuma mensagem</li>
+                <li className="text-muted-foreground text-sm">
+                  Nenhuma mensagem
+                </li>
               )}
             </ul>
 
@@ -81,14 +95,16 @@ export default function LoadingButton({
                   href={issuesUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm text-primary underline"
+                  className="text-primary text-sm underline"
                 >
                   Issues
                 </a>
               )}
               <button
-                className="text-sm text-muted-foreground"
-                onClick={() => navigator.clipboard?.writeText(window.location.href)}
+                className="text-muted-foreground text-sm"
+                onClick={() =>
+                  navigator.clipboard?.writeText(window.location.href)
+                }
               >
                 Copiar URL
               </button>
