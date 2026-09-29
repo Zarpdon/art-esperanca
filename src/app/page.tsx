@@ -1,10 +1,8 @@
 import { desc } from "drizzle-orm";
 import Image from "next/image";
-import Link from "next/link";
 
 import CategorySelector from "@/components/common/caregory-selector";
 import ProductList from "@/components/common/product-list";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
 
@@ -64,21 +62,6 @@ const Home = async () => {
             title="Novidades"
             imageListClassName="rounded-t-lg"
           />
-        </div>
-      </div>
-
-      <div className="space-y-3 px-5">
-        <h1 className="pt-2">Página inicial</h1>
-        <p>
-          This is a simple Next.js app. <br />
-          Esta é uma aplicação simples feita com Next.js.
-        </p>
-        <div className="space-y-3 p-2 pb-10">
-          <div className="grid place-items-center">
-            <Button>
-              <Link href="/authentication">Autenticação</Link>
-            </Button>
-          </div>
         </div>
       </div>
     </div>
