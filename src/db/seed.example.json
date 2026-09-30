@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Product Name",
+    "category": "Product Category",
+    "description": "Product Description",
+    "coverImageUrl": "https://example.com/product-cover.jpg",
+    "gallery": [
+      "https://example.com/product-image-1.jpg",
+      "https://example.com/product-image-2.jpg",
+      "https://example.com/product-image-3.jpg"
+    ],
+    "variants": [
+      {
+        "variant": "Variant Name 1",
+        "priceInCents": 1000,
+        "stock": 1,
+        "imageUrl": "https://example.com/product-variant-1.jpg",
+        "isMadeToOrder": false
+      },
+      {
+        "variant": "Variant Name 2",
+        "priceInCents": 1000,
+        "stock": 0,
+        "imageUrl": "https://example.com/product-variant-2.jpg",
+        "isMadeToOrder": true
+      },
+      {
+        "variant": "Variant Name 3",
+        "priceInCents": 1000,
+        "stock": 2,
+        "imageUrl": "https://example.com/product-variant-3.jpg",
+        "isMadeToOrder": false
+      }
+    ]
+  }
+]

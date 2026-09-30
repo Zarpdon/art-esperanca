@@ -1,13 +1,13 @@
 import crypto from "crypto";
 
 import { db } from ".";
-import data from "./pedras.json";
 import {
   categoryTable,
   productImageTable,
   productTable,
   productVariantTable,
 } from "./schema";
+import data from "./seed.example.json";
 
 function generateSlug(name: string): string {
   return name
